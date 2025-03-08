@@ -9,9 +9,9 @@ namespace OperationOOP.Core.Models
     public class Album : Item
     {
         public string ReleaseYear { get; set; }
-        public string Band { get; set; }
+        public Band Band { get; set; }
 
-        public Album(int albumId, string title, string releaseYear, string band)
+        public Album(int albumId, string title, string releaseYear, Band band)
         {
             Id = albumId;
             Name = title;
