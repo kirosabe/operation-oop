@@ -6,21 +6,17 @@ using System.Threading.Tasks;
 
 namespace OperationOOP.Core.Models
 {
-    public class Album
+    public class Album : Item
     {
-        public int AlbumId { get; set; }
-        public string Title { get; set; }
         public string ReleaseYear { get; set; }
         public string Band { get; set; }
 
         public Album(int albumId, string title, string releaseYear, string band)
         {
-            AlbumId = albumId;
-            Title = title;
+            Id = albumId;
+            Name = title;
             ReleaseYear = releaseYear;
             Band = band;
         }
-
-
     }
 }

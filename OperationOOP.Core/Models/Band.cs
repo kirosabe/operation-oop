@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 
 namespace OperationOOP.Core.Models
 {
-    public class Band
+    public class Band : Item
     {
-        public int BandId { get; set; }
-        public string Name { get; set; }
         public string Genre { get; set; }
 
-        public Band(int id, string name, string genre, int yearFormed)
+        public Band(int bandId, string name, string genre)
         {
-            BandId = id;
+            Id = bandId;
             Name = name;
             Genre = genre;
         }
