@@ -1,6 +1,6 @@
 ﻿namespace OperationOOP.Api.Endpoints.Music
 {
-    public class GetBand : IEndpoint
+    public class GetSong : IEndpoint
     {
         public static void MapEndpoint(IEndpointRouteBuilder app) => app
             .MapGet("/bands/{id}", Handle)
@@ -10,16 +10,11 @@
 
         private static IResult Handle(int id, IDatabase db)
         {
-            if (id <= 0)
-            {
-                return Results.BadRequest("ID måste vara ett positivt tal.");
-            }
-
             var band = db.Bands.FirstOrDefault(b => b.Id == id);
 
             if (band == null)
             {
-                return Results.NotFound($"Band med ID {id} hittades inte.");
+                return Results.NotFound();
             }
 
             var response = new Response(band.Id, band.Name, band.Genre);

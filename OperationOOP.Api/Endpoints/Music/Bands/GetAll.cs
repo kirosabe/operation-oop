@@ -10,6 +10,11 @@
 
         private static IResult Handle(IDatabase db)
         {
+            if (db.Bands.Count == 0)
+            {
+                return Results.NoContent();  
+            }
+
             var response = db.Bands.Select(b => new Response(b.Id, b.Name, b.Genre)).ToList();
             return Results.Ok(response);
         }

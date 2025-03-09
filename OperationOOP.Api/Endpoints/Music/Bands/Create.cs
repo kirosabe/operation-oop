@@ -10,17 +10,35 @@ namespace OperationOOP.Api.Endpoints
         public record Request(string Name, string Genre);
         public record Response(int Id);
 
-        private static Ok<Response> Handle(Request request, IDatabase db)
+        private static IResult Handle(Request request, IDatabase db)
         {
-            var band = new Band(
-                bandId: db.Bands.Any() ? db.Bands.Max(b => b.Id) + 1 : 1, 
-                name: request.Name,
-                genre: request.Genre
-            );
+            if (string.IsNullOrEmpty(request.Name))
+            {
+                return Results.BadRequest("Bandets namn kan inte vara tomt.");
+            }
 
-            db.Bands.Add(band);
+            if (string.IsNullOrEmpty(request.Genre))
+            {
+                return Results.BadRequest("Genren kan inte vara tom.");
+            }
 
-            return TypedResults.Ok(new Response(band.Id));
+            try
+            {
+                var band = new Band(
+                    bandId: db.Bands.Any() ? db.Bands.Max(b => b.Id) + 1 : 1,
+                    name: request.Name,
+                    genre: request.Genre
+                );
+
+                db.Bands.Add(band);
+
+                return Results.Ok(new Response(band.Id));
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Fel vid skapande av band: {ex.Message}");
+                return Results.Problem("Ett oväntat fel inträffade vid skapandet av bandet.");
+            }
         }
     }
 }
