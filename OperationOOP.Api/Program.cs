@@ -1,4 +1,3 @@
-
 using Microsoft.Extensions.Options;
 using OperationOOP.Api.Endpoints;
 using OperationOOP.Core.Data;
@@ -23,6 +22,8 @@ namespace OperationOOP.Api
             });
 
             builder.Services.AddSingleton<IDatabase, Database>();
+
+            builder.Services.AddScoped<MusicRepository>();
 
             var app = builder.Build();
 
