@@ -14,10 +14,28 @@
 
         public record Response(int Id, string Name, string Genre);
 
-        private static List<Response> Handle(string genre, MusicRepository musicRepository)
+        private static IResult Handle(string genre, MusicRepository musicRepository)
         {
-            var bands = musicRepository.GetBandsByGenre(genre);
-            return bands.Select(b => new Response(b.Id, b.Name, b.Genre)).ToList();
+            try
+            {
+                if (string.IsNullOrEmpty(genre))
+                {
+                    return Results.BadRequest("Genre kan inte vara tom.");
+                }
+
+                var bands = musicRepository.GetBandsByGenre(genre);
+
+                if (bands == null || bands.Count == 0)
+                {
+                    return Results.NotFound($"Inga band hittades för genren {genre}.");
+                }
+                return Results.Ok(bands.Select(b => new Response(b.Id, b.Name, b.Genre)).ToList());
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Fel vid hämtning av band: {ex.Message}");
+                return Results.Problem("Ett oväntat fel inträffade när vi försökte hämta banden.");
+            }
         }
     }
 }

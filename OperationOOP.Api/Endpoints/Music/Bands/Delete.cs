@@ -8,15 +8,29 @@
 
         private static IResult Handle(int id, IDatabase db)
         {
-            var band = db.Bands.FirstOrDefault(b => b.Id == id);
-
-            if (band == null)
+            try
             {
-                return Results.NotFound();
-            }
+                if (id <= 0)
+                {
+                    return Results.BadRequest("Bandets ID måste vara ett positivt tal.");
+                }
 
-            db.Bands.Remove(band);
-            return Results.NoContent();
+                var band = db.Bands.FirstOrDefault(b => b.Id == id);
+
+                if (band == null)
+                {
+                    return Results.NotFound($"Band med ID {id} hittades inte.");
+                }
+
+                db.Bands.Remove(band);
+
+                return Results.NoContent();
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Fel vid borttagning av band: {ex.Message}");
+                return Results.Problem("Ett oväntat fel inträffade när bandet skulle tas bort.");
+            }
         }
     }
 }
