@@ -21,5 +21,11 @@ namespace OperationOOP.Core.Data
                 .Where(b => b.Genre.Equals(genre, StringComparison.OrdinalIgnoreCase))
                 .ToList();
         }
+        public List<Song> GetSongsByAlbum(string album)
+        {
+            return _db.Songs
+                .Where(s => s.Album.Equals(album, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
     }
 }

@@ -10,10 +10,7 @@ namespace OperationOOP.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddAuthorization();
-
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
             {
@@ -22,7 +19,6 @@ namespace OperationOOP.Api
             });
 
             builder.Services.AddSingleton<IDatabase, Database>();
-
             builder.Services.AddScoped<MusicRepository>();
 
             var app = builder.Build();
