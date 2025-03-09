@@ -12,7 +12,7 @@
         {
             if (db.Bands.Count == 0)
             {
-                return Results.NoContent();  
+                return Results.NoContent();
             }
 
             var response = db.Bands.Select(b => new Response(b.Id, b.Name, b.Genre)).ToList();

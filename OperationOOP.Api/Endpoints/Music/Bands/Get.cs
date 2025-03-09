@@ -10,10 +10,8 @@
 
         private static IResult Handle(int id, IDatabase db)
         {
-            if (id <= 0)
-            {
-                return Results.BadRequest("ID måste vara ett positivt tal.");
-            }
+            var idValidationResult = Validator.ValidateId(id, "ID");
+            if (idValidationResult != null) return idValidationResult;
 
             var band = db.Bands.FirstOrDefault(b => b.Id == id);
 

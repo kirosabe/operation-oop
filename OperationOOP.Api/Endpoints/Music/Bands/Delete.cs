@@ -8,13 +8,11 @@
 
         private static IResult Handle(int id, IDatabase db)
         {
+            var idValidationResult = Validator.ValidateId(id, "Bandets ID");
+            if (idValidationResult != null) return idValidationResult;
+
             try
             {
-                if (id <= 0)
-                {
-                    return Results.BadRequest("Bandets ID måste vara ett positivt tal.");
-                }
-
                 var band = db.Bands.FirstOrDefault(b => b.Id == id);
 
                 if (band == null)
@@ -28,8 +26,7 @@
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"Fel vid borttagning av band: {ex.Message}");
-                return Results.Problem("Ett oväntat fel inträffade när bandet skulle tas bort.");
+                return ErrorHandler.HandleError(ex);
             }
         }
     }

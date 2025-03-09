@@ -3,6 +3,7 @@
     public class GetBandsByGenre : IEndpoint
     {
         private readonly MusicRepository _musicRepository;
+
         public GetBandsByGenre(MusicRepository musicRepository)
         {
             _musicRepository = musicRepository;
@@ -16,25 +17,23 @@
 
         private static IResult Handle(string genre, MusicRepository musicRepository)
         {
+            var validationResult = Validator.ValidateNotEmpty(genre, "Genre");
+            if (validationResult != null) return validationResult;
+
             try
             {
-                if (string.IsNullOrEmpty(genre))
-                {
-                    return Results.BadRequest("Genre kan inte vara tom.");
-                }
-
                 var bands = musicRepository.GetBandsByGenre(genre);
 
                 if (bands == null || bands.Count == 0)
                 {
                     return Results.NotFound($"Inga band hittades för genren {genre}.");
                 }
+
                 return Results.Ok(bands.Select(b => new Response(b.Id, b.Name, b.Genre)).ToList());
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"Fel vid hämtning av band: {ex.Message}");
-                return Results.Problem("Ett oväntat fel inträffade när vi försökte hämta banden.");
+                return ErrorHandler.HandleError(ex);
             }
         }
     }

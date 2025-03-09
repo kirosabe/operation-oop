@@ -8,6 +8,7 @@
         {
             _musicRepository = musicRepository;
         }
+
         public static void MapEndpoint(IEndpointRouteBuilder app) => app
             .MapGet("/songs/album/{album}", Handle)
             .WithSummary("Get songs by album");
@@ -16,10 +17,8 @@
 
         private static IResult Handle(string album, MusicRepository musicRepository)
         {
-            if (string.IsNullOrEmpty(album))
-            {
-                return Results.BadRequest("Album kan inte vara tomt.");
-            }
+            var validationResult = Validator.ValidateNotEmpty(album, "Album");
+            if (validationResult != null) return validationResult;
 
             try
             {
@@ -34,8 +33,7 @@
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"Fel vid hämtning av låtar för albumet: {ex.Message}");
-                return Results.Problem("Ett oväntat fel inträffade vid hämtning av låtar.");
+                return ErrorHandler.HandleError(ex);
             }
         }
     }

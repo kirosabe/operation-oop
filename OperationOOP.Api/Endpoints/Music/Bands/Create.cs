@@ -12,15 +12,11 @@ namespace OperationOOP.Api.Endpoints
 
         private static IResult Handle(Request request, IDatabase db)
         {
-            if (string.IsNullOrEmpty(request.Name))
-            {
-                return Results.BadRequest("Bandets namn kan inte vara tomt.");
-            }
+            var nameValidationResult = Validator.ValidateNotEmpty(request.Name, "Bandets namn");
+            if (nameValidationResult != null) return nameValidationResult;
 
-            if (string.IsNullOrEmpty(request.Genre))
-            {
-                return Results.BadRequest("Genren kan inte vara tom.");
-            }
+            var genreValidationResult = Validator.ValidateNotEmpty(request.Genre, "Genren");
+            if (genreValidationResult != null) return genreValidationResult;
 
             try
             {
@@ -36,8 +32,7 @@ namespace OperationOOP.Api.Endpoints
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine($"Fel vid skapande av band: {ex.Message}");
-                return Results.Problem("Ett oväntat fel inträffade vid skapandet av bandet.");
+                return ErrorHandler.HandleError(ex);
             }
         }
     }
