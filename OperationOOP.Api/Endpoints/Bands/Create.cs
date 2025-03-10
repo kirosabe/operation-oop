@@ -1,5 +1,4 @@
-﻿
-namespace OperationOOP.Api.Endpoints
+﻿namespace OperationOOP.Api.Endpoints.Bands
 {
     public class CreateBand : IEndpoint
     {

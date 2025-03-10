@@ -1,4 +1,4 @@
-﻿namespace OperationOOP.Api.Endpoints.Music.Bands
+﻿namespace OperationOOP.Api.Endpoints.Bands
 {
     public class GetBandsByGenre : IEndpoint
     {

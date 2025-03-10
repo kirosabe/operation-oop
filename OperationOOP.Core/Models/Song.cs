@@ -10,7 +10,6 @@ namespace OperationOOP.Core.Models
     {
         public string Album { get; set; }
         public string Duration { get; set; }
-
         public Song(int songId, string title, string album, string duration)
         {
             Id = songId;

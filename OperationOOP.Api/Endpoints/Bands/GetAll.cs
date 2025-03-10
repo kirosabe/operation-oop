@@ -1,4 +1,4 @@
-﻿namespace OperationOOP.Api.Endpoints.Music
+﻿namespace OperationOOP.Api.Endpoints.Bands
 {
     public class GetAllBands : IEndpoint
     {
