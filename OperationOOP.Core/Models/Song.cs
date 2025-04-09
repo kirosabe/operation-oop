@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OperationOOP.Core.Models
+﻿namespace OperationOOP.Core.Models
 {
     public class Song : Item
     {
-        public int Duration { get; private set; } 
-        public int AlbumId { get; private set; }  
+        public int Duration { get; private set; }
+        public int AlbumId { get; private set; }
 
         public Song(int id, string title, int duration, int albumId = 0) : base(id, title)
         {

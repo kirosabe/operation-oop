@@ -1,5 +1,5 @@
-﻿using OperationOOP.Core.Models;
-using OperationOOP.Core.Data;
+﻿using OperationOOP.Core.Data;
+using OperationOOP.Core.Models;
 
 namespace OperationOOP.Core.Repositories;
 
