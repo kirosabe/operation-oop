@@ -7,16 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Endpoints\Bands\NewFolder\**" />
+    <Content Remove="Endpoints\Bands\NewFolder\**" />
+    <EmbeddedResource Remove="Endpoints\Bands\NewFolder\**" />
+    <None Remove="Endpoints\Bands\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\OperationOOP.Core\OperationOOP.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Endpoints\Bands\NewFolder\" />
   </ItemGroup>
 
 </Project>

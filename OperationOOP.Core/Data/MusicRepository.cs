@@ -1,51 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OperationOOP.Core.Models;
+﻿using OperationOOP.Core.Models;
+using OperationOOP.Core.Data;
 
-namespace OperationOOP.Core.Data
+namespace OperationOOP.Core.Repositories;
+
+public class MusicRepository
 {
-    public class MusicRepository
+    private readonly IDatabase _db;
+
+    public MusicRepository(IDatabase db)
     {
-        private readonly IDatabase _db;
+        _db = db;
+    }
 
-        public MusicRepository(IDatabase db)
-        {
-            _db = db;
-        }
-        public List<Band> GetBandsByGenre(string genre)
-        {
-            return _db.Bands
-                .Where(b => b.Genre.Equals(genre, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-        }
-        public List<Song> GetSongsByAlbum(string album)
-        {
-            return _db.Songs
-                .Where(s => s.Album.Equals(album, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-        }
-        public List<Album> SortAlbumsByReleaseYear(bool descending = false)
-        {
-            return descending
-                ? _db.Albums.OrderByDescending(a => a.ReleaseYear).ToList()
-                : _db.Albums.OrderBy(a => a.ReleaseYear).ToList();
-        }
+    public List<Album> GetAlbumsByName(string name)
+    {
+        return _db.Albums
+            .Where(a => a.Name.Contains(name, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+    }
 
-        public Dictionary<string, int> GetSongCountPerAlbum()
-        {
-            return _db.Albums.ToDictionary(
-                album => album.Name,
-                album => _db.Songs.Count(song => song.Album.Equals(album.Name, StringComparison.OrdinalIgnoreCase))
-            );
-        }
+    public List<Band> GetBandsByGenre(string genre)
+    {
+        return _db.Bands
+            .Where(b => b.Genre.Equals(genre, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+    }
 
-        public List<Band> GetBandsWithoutAlbums()
-        {
-            return _db.Bands.Where(b => !_db.Albums.Any(a => a.Band.Id == b.Id)).ToList();
-        }
+    public List<Song> GetSongsByAlbumId(int albumId)
+    {
+        return _db.Songs
+            .Where(s => s.AlbumId == albumId)
+            .ToList();
+    }
 
+    public List<Album> SortAlbumsByYear(bool descending = false)
+    {
+        return descending
+            ? _db.Albums.OrderByDescending(a => a.Year).ToList()
+            : _db.Albums.OrderBy(a => a.Year).ToList();
+    }
+
+    public Dictionary<string, int> GetSongCountPerAlbum()
+    {
+        return _db.Albums.ToDictionary(
+            album => album.Name,
+            album => _db.Songs.Count(song => song.AlbumId == album.Id)
+        );
+    }
+
+    public List<Band> GetBandsWithoutAlbums()
+    {
+        return _db.Bands
+            .Where(b => !_db.Albums.Any(a => a.Id == b.Id))
+            .ToList();
     }
 }

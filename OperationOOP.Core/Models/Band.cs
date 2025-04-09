@@ -8,24 +8,24 @@ namespace OperationOOP.Core.Models
 {
     public class Band : Item
     {
-        private string _genre;
-        public string Genre
+        public string Genre { get; private set; } = string.Empty;
+
+        public Band(int id, string name, string genre) : base(id, name)
         {
-            get { return _genre; }
-            private set { _genre = value; }
+            SetGenre(genre);
         }
-        public Band(int bandId, string name, string genre)
-        {
-            Id = bandId;
-            Name = name;
-            Genre = genre;
-        }
+
         public void SetGenre(string genre)
         {
-            if (!string.IsNullOrEmpty(genre))
-            {
+            if (!string.IsNullOrWhiteSpace(genre))
                 Genre = genre;
-            }
+        }
+
+        public Band() : base(0, string.Empty) { }
+
+        public override string ToString()
+        {
+            return $"{Name} ({Genre})";
         }
     }
 }

@@ -1,3 +1,9 @@
-﻿global using Microsoft.AspNetCore.Http.HttpResults;
+﻿global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Routing;
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.Extensions.DependencyInjection;
 global using OperationOOP.Core.Models;
 global using OperationOOP.Core.Data;
+global using OperationOOP.Core.Services;
+global using OperationOOP.Api.Endpoints;
+global using OperationOOP.Api.Validation;
