@@ -19,8 +19,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+
 // Endpoints
 app.MapAllEndpoints();
 var db = app.Services.CreateScope().ServiceProvider.GetRequiredService<IDatabase>();
 DatabaseSeeder.Seed(db);
-app.Run();
+app.Run(); 
