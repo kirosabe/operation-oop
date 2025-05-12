@@ -30,34 +30,36 @@ public class BandService
         return band is not null && _db.Bands.Remove(band);
     }
 
-    public IEnumerable<Band> FilterByGenre(string genre)
+    public List<Band> FilterByGenre(string genre)
     {
         return _db.Bands
-            .Where(b => b.Genre.Equals(genre, StringComparison.OrdinalIgnoreCase));
+            .Where(b => b.Genre.Equals(genre, StringComparison.OrdinalIgnoreCase))
+            .ToList();
     }
 
-    public IEnumerable<Band> SearchByName(string nameFragment)
+    public List<Band> SearchByName(string nameFragment)
     {
         return _db.Bands
-            .Where(b => b.Name.Contains(nameFragment, StringComparison.OrdinalIgnoreCase));
+            .Where(b => b.Name.Contains(nameFragment, StringComparison.OrdinalIgnoreCase))
+            .ToList();
     }
 
-    public IEnumerable<Band> SortByName(bool descending = false)
+    public List<Band> SortByName(bool descending = false)
     {
         return descending
-            ? _db.Bands.OrderByDescending(b => b.Name)
-            : _db.Bands.OrderBy(b => b.Name);
+            ? _db.Bands.OrderByDescending(b => b.Name).ToList()
+            : _db.Bands.OrderBy(b => b.Name).ToList();
     }
 
-    public IEnumerable<Band> SortByGenre(bool descending = false)
+    public List<Band> SortByGenre(bool descending = false)
     {
         return descending
-            ? _db.Bands.OrderByDescending(b => b.Genre)
-            : _db.Bands.OrderBy(b => b.Genre);
+            ? _db.Bands.OrderByDescending(b => b.Genre).ToList()
+            : _db.Bands.OrderBy(b => b.Genre).ToList();
     }
 
-    public IEnumerable<Band> GetBandsWithoutGenre()
+    public List<Band> GetBandsWithoutGenre()
     {
-        return _db.Bands.Where(b => string.IsNullOrWhiteSpace(b.Genre));
+        return _db.Bands.Where(b => string.IsNullOrWhiteSpace(b.Genre)).ToList();
     }
 }

@@ -30,28 +30,29 @@ public class SongService
         return song is not null && _db.Songs.Remove(song);
     }
 
-    public IEnumerable<Song> GetSongsLongerThan(int duration)
+    public List<Song> GetSongsLongerThan(int duration)
     {
-        return _db.Songs.Where(s => s.Duration > duration);
+        return _db.Songs.Where(s => s.Duration > duration).ToList();
     }
 
-    public IEnumerable<Song> SearchByTitle(string titleFragment)
+    public List<Song> SearchByTitle(string titleFragment)
     {
         return _db.Songs
-            .Where(s => s.Name.Contains(titleFragment, StringComparison.OrdinalIgnoreCase));
+            .Where(s => s.Name.Contains(titleFragment, StringComparison.OrdinalIgnoreCase))
+            .ToList();
     }
 
-    public IEnumerable<Song> SortByTitle(bool descending = false)
+    public List<Song> SortByTitle(bool descending = false)
     {
         return descending
-            ? _db.Songs.OrderByDescending(s => s.Name)
-            : _db.Songs.OrderBy(s => s.Name);
+            ? _db.Songs.OrderByDescending(s => s.Name).ToList()
+            : _db.Songs.OrderBy(s => s.Name).ToList();
     }
 
-    public IEnumerable<Song> SortByDuration(bool descending = false)
+    public List<Song> SortByDuration(bool descending = false)
     {
         return descending
-            ? _db.Songs.OrderByDescending(s => s.Duration)
-            : _db.Songs.OrderBy(s => s.Duration);
+            ? _db.Songs.OrderByDescending(s => s.Duration).ToList()
+            : _db.Songs.OrderBy(s => s.Duration).ToList();
     }
 }

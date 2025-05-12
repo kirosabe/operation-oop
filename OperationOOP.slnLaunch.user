@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "OperationOOP.Api\\OperationOOP.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "OperationOOP.Core\\OperationOOP.Core.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

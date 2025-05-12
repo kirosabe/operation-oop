@@ -59,31 +59,24 @@ public static class SongsEndpoints
     private static IResult GetSongsLongerThan(int duration, SongService service)
     {
         var songs = service.GetSongsLongerThan(duration);
-        return songs.Any()
-            ? Results.Ok(songs)
-            : ErrorHandler.HandleNotFound($"Ingen sång över {duration} seconds hittades.");
+        return Results.Ok(songs);
     }
 
     private static IResult SearchByTitle(string title, SongService service)
     {
-        var error = Validator.ValidateNotEmpty(title, "Titel");
-        if (error is not null) return error;
-
         var songs = service.SearchByTitle(title);
-        return songs.Any()
-            ? Results.Ok(songs)
-            : ErrorHandler.HandleNotFound($"'{title}' hittas inte.");
-    }
-
-    private static IResult SortByTitle(bool desc, SongService service)
-    {
-        var songs = service.SortByTitle(desc);
         return Results.Ok(songs);
     }
 
-    private static IResult SortByDuration(bool desc, SongService service)
+    private static IResult SortByTitle(bool descending, SongService service)
     {
-        var songs = service.SortByDuration(desc);
+        var songs = service.SortByTitle(descending);
+        return Results.Ok(songs);
+    }
+
+    private static IResult SortByDuration(bool descending, SongService service)
+    {
+        var songs = service.SortByDuration(descending);
         return Results.Ok(songs);
     }
 }

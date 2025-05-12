@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using OperationOOP.Core.Models;
 using OperationOOP.Core.Services;
-using OperationOOP.Api.Endpoints;
 using OperationOOP.Api.Validation;
+using OperationOOP.Api.Endpoints;
 
 namespace OperationOOP.Endpoints.Albums;
 
@@ -32,7 +32,7 @@ public static class AlbumsEndpoints
     {
         var album = service.GetById(id);
         return album is null
-            ? ErrorHandler.HandleNotFound("Album not found.")
+            ? ErrorHandler.HandleNotFound("Albumet hittades inte.")
             : Results.Ok(album);
     }
 
@@ -40,6 +40,9 @@ public static class AlbumsEndpoints
     {
         var titleError = Validator.ValidateNotEmpty(request.Title, "Titel");
         if (titleError is not null) return titleError;
+
+        var yearError = Validator.ValidatePositiveDuration(request.Year);
+        if (yearError is not null) return yearError;
 
         var album = service.Create(request.Title, request.Year);
         return Results.Created($"/albums/{album.Id}", album);
@@ -56,31 +59,24 @@ public static class AlbumsEndpoints
     private static IResult GetByYear(int year, AlbumService service)
     {
         var albums = service.GetByYear(year);
-        return albums.Any()
-            ? Results.Ok(albums)
-            : ErrorHandler.HandleNotFound($"Inget album hittades från {year}.");
+        return Results.Ok(albums);
     }
 
     private static IResult SearchByTitle(string title, AlbumService service)
     {
-        var error = Validator.ValidateNotEmpty(title, "Titel");
-        if (error is not null) return error;
-
         var albums = service.SearchByTitle(title);
-        return albums.Any()
-            ? Results.Ok(albums)
-            : ErrorHandler.HandleNotFound($"Inget album innehåller'{title}'.");
-    }
-
-    private static IResult SortByTitle(bool desc, AlbumService service)
-    {
-        var albums = service.SortByTitle(desc);
         return Results.Ok(albums);
     }
 
-    private static IResult SortByYear(bool desc, AlbumService service)
+    private static IResult SortByTitle(bool descending, AlbumService service)
     {
-        var albums = service.SortByYear(desc);
+        var albums = service.SortByTitle(descending);
+        return Results.Ok(albums);
+    }
+
+    private static IResult SortByYear(bool descending, AlbumService service)
+    {
+        var albums = service.SortByYear(descending);
         return Results.Ok(albums);
     }
 }

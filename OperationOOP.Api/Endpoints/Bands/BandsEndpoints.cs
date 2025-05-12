@@ -57,9 +57,7 @@ public static class BandsEndpoints
     private static IResult GetBandsByGenre(string genre, BandService service)
     {
         var bands = service.FilterByGenre(genre);
-        return bands.Any()
-            ? Results.Ok(bands)
-            : ErrorHandler.HandleNotFound($"Inget band med genre '{genre}' hittades.");
+        return Results.Ok(bands);
     }
 
     private static IResult GetBandsWithoutGenre(BandService service)
@@ -70,24 +68,19 @@ public static class BandsEndpoints
 
     private static IResult SearchByName(string name, BandService service)
     {
-        var error = Validator.ValidateNotEmpty(name, "Namn");
-        if (error is not null) return error;
-
         var bands = service.SearchByName(name);
-        return bands.Any()
-            ? Results.Ok(bands)
-            : ErrorHandler.HandleNotFound($"Inget band innehåller '{name}'.");
-    }
-
-    private static IResult SortByName(bool desc, BandService service)
-    {
-        var bands = service.SortByName(desc);
         return Results.Ok(bands);
     }
 
-    private static IResult SortByGenre(bool desc, BandService service)
+    private static IResult SortByName(bool descending, BandService service)
     {
-        var bands = service.SortByGenre(desc);
+        var bands = service.SortByName(descending);
+        return Results.Ok(bands);
+    }
+
+    private static IResult SortByGenre(bool descending, BandService service)
+    {
+        var bands = service.SortByGenre(descending);
         return Results.Ok(bands);
     }
 }
